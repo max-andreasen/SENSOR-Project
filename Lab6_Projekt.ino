@@ -16,30 +16,32 @@ Servo scoreIndic;
 void setup(void) 
 {
   scoreIndic.attach(servoPin);
+  scoreIndic.write(3);
   pinMode(x_joystick, INPUT);
   pinMode(y_joystick, INPUT);
   pinMode(switch_joystick, INPUT);
   pinMode(button, INPUT);
   Serial.begin(9600);
   establishContact();
+
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   int x_joystick_reading = analogRead(x_joystick);
-  float x_joystick_average = x_filter.getAverage(x_joystick_reading);
+  int x_joystick_average = (int) (x_filter.getAverage(x_joystick_reading));
 
   int y_joystick_reading = analogRead(y_joystick);
-  float y_joystick_average = y_filter.getAverage(y_joystick_reading);
+  int y_joystick_average = (int) (y_filter.getAverage(y_joystick_reading));
 
   int switch_joystick_reading = analogRead(switch_joystick);
-  float switch_joystick_average = z_filter.getAverage(switch_joystick_reading);
+  int switch_joystick_average = (int) (z_filter.getAverage(switch_joystick_reading));
   Serial.println(String(x_joystick_average) + "," + String(y_joystick_average) + "," + String(switch_joystick_average));
 
   if (Serial.available()){
     int score = Serial.read();
     int maxScore = 6;
-    int angle = (int) (score * 180 / maxScore); 
+    int angle = (int) (3+(24.5*score)); 
     scoreIndic.write(angle);
   }
 

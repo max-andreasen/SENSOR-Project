@@ -1,8 +1,8 @@
 
 class RunningAverageFilter{
   private:
-    int numReadings = 10;
-    float readings[10];
+    int numReadings = 2;
+    float readings[2];
     float total;
     float average;
     int readIndex;
