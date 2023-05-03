@@ -1,56 +1,56 @@
 
-
-class Player {
-  float x, y, r;
+public class Player {
+  int x, y, r;
+  int score;
   
-  Player(float x_, float y_, float r_) 
+  Player(int x_, int y_, int r_, int score_) 
   {
     x = x_;
     y = y_;
     r = r_;
+    score = score_;
   }
   
-  void update()
+  
+  void update(int x_in, int y_in)
   {
+    x += (x_in-500)/100;
+    y += (y_in-502)/100;
     
-    // Reads the string from the port
-    if (myPort.available() > 0) 
-    {
-    val = myPort.readStringUntil('\n');
-    }
-    // removes all the values = null
-    if (val != null) 
-    {
-      String[] values = val.split(",");
-      if (values.length == 2) {
-        values[1] = values[1].trim();
-      
-        x = int(values[0]);
-        y = int(values[1]);
-      }
-      
-    }
-    
+    //println(x);
   }
   
-  void grow(float rad) {
+  
+  void grow(float rad) 
+  {
     r += rad/2;
+    score += 1;
+  }
+  
+  int getScore() 
+  { 
+    return score;
   }
   
   
-  boolean hits(Circle other) {
+  boolean hits(Circle other) 
+  {
     float d = dist(x, y, other.x, other.y);
     
-    if (d < r + other.r) {
+    if (d < r + other.r) 
+    {
       return true;
     } 
-    else {
+    else 
+    {
       return false;
     }
+    
   }
   
-  void display(){
-    fill(250);
+  void display()
+  {
+    fill(0);
     ellipse(x, y, 2*r, 2*r);
   }
 }
