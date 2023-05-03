@@ -16,7 +16,7 @@ Servo scoreIndic;
 void setup(void) 
 {
   scoreIndic.attach(servoPin);
-  scoreIndic.write(3);
+  scoreIndic.write(150);
   pinMode(x_joystick, INPUT);
   pinMode(y_joystick, INPUT);
   pinMode(switch_joystick, INPUT);
@@ -41,7 +41,7 @@ void loop() {
   if (Serial.available()){
     int score = Serial.read();
     int maxScore = 6;
-    int angle = (int) (3+(24.5*score)); 
+    int angle = (int) 150-(24.5*score); 
     scoreIndic.write(angle);
   }
 
