@@ -7,6 +7,14 @@ class PlatPlayer {
   boolean isGrounded = false;
   boolean recentlyJumped = false; //Sometimes it would set gravityModifier to 0 again before actually jumping.
   float feetPos;
+  boolean leftPressed = false;
+  boolean rightPressed = false;
+  boolean jumpPressed = false;
+  boolean shootLeft = false;
+  boolean shootRight = false;
+  int frameShootCD = 1;
+  
+  int lives = 3;
   
   PlatPlayer(float xCord, float yCord, int[] colorValues) {
     pos = new PVector(xCord,yCord);
@@ -15,9 +23,8 @@ class PlatPlayer {
     gravityModifier = 1.0f;
   }
   private void gravity() {
-    pos.y += 5 * gravityModifier;
+    pos.y += 7 * gravityModifier;
     increaseGravityMod();
-    //recentlyJumped = false;
   }
   
   private void increaseGravityMod(){
@@ -27,7 +34,6 @@ class PlatPlayer {
   }
   
   void draw() {
-    gravity();
     feetPos = pos.y + playerHeight;
     fill(colorValues[0], colorValues[1], colorValues[2]);
     rect(pos.x, pos.y, playerWidth, playerHeight, 10); //the fifth parameter is how rounded the corners are.
@@ -57,7 +63,6 @@ class PlatPlayer {
       isGrounded = false;
       //recentlyJumped = true;
       gravityModifier = -2.0f;
-      println("Jump");
     }
     
   }

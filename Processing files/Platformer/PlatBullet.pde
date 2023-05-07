@@ -27,4 +27,16 @@ class PlatBullet {
     fill(256, 256, 256);
     
   }
+  
+  boolean checkCollision(PlatPlayer player){
+      /*
+    if (player.pos.x >= pos.x && player.pos.x <= pos.x + size * 2 && player.pos.y <= pos.y + size * 2 && player.pos.y > pos.y) {
+        return true;
+      } */
+      
+      if (pos.x >= player.pos.x && pos.x <= player.pos.x + player.playerWidth && pos.y <= player.pos.y + player.playerHeight && pos.y > player.pos.y) {
+        return true;
+      }
+    return false;
+  }
 }
