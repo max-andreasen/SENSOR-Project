@@ -1,7 +1,7 @@
 
 
 // Function to extract a random int in a set range
-int rand_int(int low, int up) {
+int randInt(int low, int up) {
   Random rand_obj = new Random();
   
   int int_random = rand_obj.nextInt(low, up);
@@ -9,13 +9,21 @@ int rand_int(int low, int up) {
 }
 
 // Checks if a circle and the Player is colliding
-boolean check_collision(AgarPlayer player, AgarCircle circle) {
+boolean checkCollision(AgarPlayer player, AgarCircle circle) {
   if (player.hits(circle)) 
   {
     float radius = circle.remove();
+    
+    if (circle instanceof AntiCircle)
+    {
+      player.heal(radius);
+    }
+    else 
+    {    
+      player.grow(radius);
+      println("YUUMM!!");
+    }
     circle = null;
-    player.grow(radius);
-    println("YUUMM!!");
     return true;
   }
   else {
@@ -24,7 +32,7 @@ boolean check_collision(AgarPlayer player, AgarCircle circle) {
 }
 
 // Handles all the action of the circles
-List<AgarCircle> Circles(List<AgarCircle> circ_list, float speed) {
+List<AgarCircle> refreshCircles(List<AgarCircle> circ_list, float speed) {
   
   // The player objects are taken from the global variables defined in 'AgarGame'
   
@@ -40,7 +48,7 @@ List<AgarCircle> Circles(List<AgarCircle> circ_list, float speed) {
       next_circle.move(speed);
       
       // Checks for collision between Player1 and Circle
-      if  ((check_collision(player1, next_circle)) || (check_collision(player2, next_circle)))
+      if  ((checkCollision(player1, next_circle)) || (checkCollision(player2, next_circle)))
       {
         circ_list.remove(i);
       } 
@@ -79,12 +87,28 @@ AgarCircle createCircle(int[] bounds) {
   int x_pos;
   
   // Takes -40 to compensate for the maximum radius of the circle (so it doesn't spawn outside of the boundaries)
-  x_pos = rand_int(bounds[0], bounds[1]-40);
+  x_pos = randInt(bounds[0], bounds[1]-40);
   
-  int radius = rand_int(5, 40);
+  int radius = randInt(5, 40);
   AgarCircle new_Circle = new AgarCircle(x_pos, y_pos, radius);
   return new_Circle;
 }
+
+// Creates a new circle at a random x_position
+AntiCircle healthCircle(int[] bounds) {
+  // Is it better to use a boolen to determine which side to spawn it on? 
+  
+  int y_pos = CIRCLE_START_Y;
+  int x_pos;
+  
+  // Takes -40 to compensate for the maximum radius of the circle (so it doesn't spawn outside of the boundaries)
+  x_pos = randInt(bounds[0], bounds[1]-40);
+  
+  int radius = randInt(5, 40);
+  AntiCircle new_Circle = new AntiCircle(x_pos, y_pos, radius);
+  return new_Circle;
+}
+
 
 
 // Handles the score and writes it to the Serial port

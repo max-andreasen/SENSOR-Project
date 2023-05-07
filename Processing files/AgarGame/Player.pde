@@ -28,11 +28,16 @@ public class AgarPlayer {
   }
   
   // Grows the player in size
-  void grow(float rad) 
+  void grow(float radius) 
   {
-    r += rad/4;
+    r += radius/4;
     prev_score = score;
     score += 1;
+  }
+  
+  void heal(float radius) 
+  {
+    r -= radius/4;
   }
   
   // Returns the current score

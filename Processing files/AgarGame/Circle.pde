@@ -33,3 +33,19 @@ public class AgarCircle {
   }
   
 }
+
+
+class AntiCircle extends AgarCircle {
+  
+  public AntiCircle(float x_, float y_, float r_) 
+  {
+    super(x_, y_, r_);
+  }
+  
+  void display() 
+  {
+    fill(30,144,255);
+    ellipse(x,y,2*r,2*r);
+  }
+
+}

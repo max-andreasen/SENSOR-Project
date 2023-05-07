@@ -80,8 +80,8 @@ void draw(){
     player1.update(mx, my);
     
     
-    // Handles the circles
-    agar_circles = Circles(agar_circles, speed);
+    // Updates the List with new Circle positions
+    agar_circles = refreshCircles(agar_circles, speed);
     
     speed = calcSpeed(elapsed_time);
     delay = calcDelay(elapsed_time);
@@ -113,9 +113,26 @@ void draw(){
 // Spawns a Circle in each player's canvas
 void spawnCircles() {
   
-  AgarCircle new_circle_p1 = createCircle(P1_X_BOUND);
-  AgarCircle new_circle_p2 = createCircle(P2_X_BOUND);
-  agar_circles.add(new_circle_p1);
-  agar_circles.add(new_circle_p2);
+  int rand_int = randInt(0,20);
+  
+  if (rand_int == 0) 
+  {
+    AntiCircle new_circle_p1 = healthCircle(P1_X_BOUND);
+    agar_circles.add(new_circle_p1);
+  }
+  else if (rand_int == 1) 
+  {
+    AntiCircle new_circle_p2 = healthCircle(P2_X_BOUND);
+    agar_circles.add(new_circle_p2);
+  }
+  else 
+  {
+    AgarCircle new_circle_p1 = createCircle(P1_X_BOUND);
+    AgarCircle new_circle_p2 = createCircle(P2_X_BOUND);
+    agar_circles.add(new_circle_p1);
+    agar_circles.add(new_circle_p2);
+  }
+  
+
   
 }
