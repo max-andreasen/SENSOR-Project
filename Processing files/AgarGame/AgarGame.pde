@@ -21,6 +21,8 @@ int delay;
 int elapsed_time; 
 float speed;
 
+int number_of_sensors = 3;
+
 boolean firstContact; 
 boolean run_new_game = true; 
 boolean game_running;
@@ -46,8 +48,8 @@ void setup() {
   elapsed_time = 0;
 
   
-  player1 = new AgarPlayer(canvas_w/4, canvas_h-300, 15, 0, P1_X_BOUND);
-  player2 = new AgarPlayer(3000, canvas_h-300, 15, 0, P2_X_BOUND);
+  player1 = new AgarPlayer(canvas_w/4, canvas_h-300, 15, 0, P1_X_BOUND, "Player 1");
+  player2 = new AgarPlayer(3000, canvas_h-300, 15, 0, P2_X_BOUND, "Player 2");
 
   noStroke(); 
   
@@ -113,26 +115,24 @@ void draw(){
 // Spawns a Circle in each player's canvas
 void spawnCircles() {
   
-  int rand_int = randInt(0,20);
+  int rand_int = randInt(0,100);
+  int type;
   
-  if (rand_int == 0) 
+  if (rand_int < 6) 
   {
-    AntiCircle new_circle_p1 = healthCircle(P1_X_BOUND);
-    agar_circles.add(new_circle_p1);
+    type = 1;
   }
-  else if (rand_int == 1) 
+  else if (rand_int == 10) 
   {
-    AntiCircle new_circle_p2 = healthCircle(P2_X_BOUND);
-    agar_circles.add(new_circle_p2);
+    type = 2;
   }
   else 
   {
-    AgarCircle new_circle_p1 = createCircle(P1_X_BOUND);
-    AgarCircle new_circle_p2 = createCircle(P2_X_BOUND);
-    agar_circles.add(new_circle_p1);
-    agar_circles.add(new_circle_p2);
+    type = 0;
   }
   
-
-  
+  AgarCircle new_circle_p1 = createCircle(P1_X_BOUND, type);
+  AgarCircle new_circle_p2 = createCircle(P2_X_BOUND, type);
+  agar_circles.add(new_circle_p1);
+  agar_circles.add(new_circle_p2);
 }

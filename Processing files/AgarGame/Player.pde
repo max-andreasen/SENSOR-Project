@@ -6,15 +6,23 @@ public class AgarPlayer {
   int x, y, r;
   int score, prev_score;
   int [] bounds;
+  int min_r = 10;
+  String player; 
   
   // CONSTRUCTOR
-  AgarPlayer(int x_, int y_, int r_, int score_, int[] bounds_) 
+  AgarPlayer(int x_, int y_, int r_, int score_, int[] bounds_, String player_) 
   {
     x = x_;
     y = y_;
     r = r_;
     score = score_;
     bounds = bounds_;
+    player = player_;
+  }
+  
+  String getPlayer() 
+  {
+    return player;
   }
   
   // Updates the position of the player
@@ -26,7 +34,7 @@ public class AgarPlayer {
     y = y + (y_in-y)/10;
     x = constrain(x, bound_min, bound_max);
   }
-  
+ 
   // Grows the player in size
   void grow(float radius) 
   {
@@ -37,7 +45,12 @@ public class AgarPlayer {
   
   void heal(float radius) 
   {
-    r -= radius/4;
+    
+    // Checks so that the player isn't too small
+    if ( (r-(radius/4)) >= min_r ) 
+    {
+      r -= radius/4;
+    }
   }
   
   // Returns the current score

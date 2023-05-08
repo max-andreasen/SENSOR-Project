@@ -14,11 +14,15 @@ boolean checkCollision(AgarPlayer player, AgarCircle circle) {
   {
     float radius = circle.remove();
     
-    if (circle instanceof AntiCircle)
+    if (circle.type == 1)
     {
       player.heal(radius);
     }
-    else 
+    else if (circle.type == 2) 
+    {
+      switchSensor(player);
+    }
+    else
     {    
       player.grow(radius);
       println("YUUMM!!");
@@ -29,6 +33,13 @@ boolean checkCollision(AgarPlayer player, AgarCircle circle) {
   else {
     return false;
   }
+}
+
+// Switches the input sensor for the other player
+void switchSensor(AgarPlayer player)
+{
+  int rand_int = randInt(0, number_of_sensors+1);
+  println("NEW SENSOR: " + rand_int + " for " + player.getPlayer());
 }
 
 // Handles all the action of the circles
@@ -80,7 +91,7 @@ List<AgarCircle> refreshCircles(List<AgarCircle> circ_list, float speed) {
 
 
 // Creates a new circle at a random x_position
-AgarCircle createCircle(int[] bounds) {
+AgarCircle createCircle(int[] bounds, int type) {
   // Is it better to use a boolen to determine which side to spawn it on? 
   
   int y_pos = CIRCLE_START_Y;
@@ -90,26 +101,9 @@ AgarCircle createCircle(int[] bounds) {
   x_pos = randInt(bounds[0], bounds[1]-40);
   
   int radius = randInt(5, 40);
-  AgarCircle new_Circle = new AgarCircle(x_pos, y_pos, radius);
+  AgarCircle new_Circle = new AgarCircle(x_pos, y_pos, radius, type);
   return new_Circle;
 }
-
-// Creates a new circle at a random x_position
-AntiCircle healthCircle(int[] bounds) {
-  // Is it better to use a boolen to determine which side to spawn it on? 
-  
-  int y_pos = CIRCLE_START_Y;
-  int x_pos;
-  
-  // Takes -40 to compensate for the maximum radius of the circle (so it doesn't spawn outside of the boundaries)
-  x_pos = randInt(bounds[0], bounds[1]-40);
-  
-  int radius = randInt(5, 40);
-  AntiCircle new_Circle = new AntiCircle(x_pos, y_pos, radius);
-  return new_Circle;
-}
-
-
 
 // Handles the score and writes it to the Serial port
 void scoreCounter(AgarPlayer p1, AgarPlayer p2) {
@@ -177,7 +171,7 @@ float calcSpeed(int time) {
   
   float speed = (float) (Math.pow((startvalue*(Math.log(time))/20), power));
   
-  println("Speed" + speed);
+  //println("Speed" + speed);
   
   return speed;
   
