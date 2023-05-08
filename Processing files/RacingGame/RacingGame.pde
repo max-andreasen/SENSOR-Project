@@ -14,11 +14,9 @@ PShader racingFinishShader;
 color racing_player1_c = color(200, 200, 255); //BLUE
 color racing_player2_c = color(255, 200, 200); //RED
 
-int joy_x_val = 511;
-int joy_y_val = 511;
 
-void setup() {
-  size(1000, 1000, P2D);
+void racingSetup() {
+
   rectMode(CENTER);
   textAlign(CENTER);
   textMode(SHAPE);
@@ -40,21 +38,26 @@ void setup() {
 }
 
 
-void draw() {
+void racingDraw() {
+  if (run_new_game) {
+    racingSetup();
+    run_new_game = false;
+  }
+
   racingBackgroundShader.set("u_time", (float) millis() / 1000);
   racingFinishShader.set("u_time", (float) millis() / 1000);
   filter(racingFinishShader);
   racing_track.display();
 
-  racing_player2.update(joy_x_val, joy_y_val);
-  racing_player2.display();
+  //racing_player2.update(joy_x_val, joy_y_val);
+  //racing_player2.display();
   racing_player1.update(joy_x_val, joy_y_val);
   racing_player1.display();
 
   racing_score_player1.update(racing_player1.getLap());
-  racing_score_player2.update(racing_player2.getLap());
+  //racing_score_player2.update(racing_player2.getLap());
   racing_score_player1.display();
-  racing_score_player2.display();
+  //racing_score_player2.display();
 
   if (racing_score_player1.getRaceEnded() || racing_score_player2.getRaceEnded()) {
     racing_player1.speed = 0;
@@ -63,32 +66,32 @@ void draw() {
     racing_player2.scale *= 0.95;
   }
 }
-  //KEYBOARD INPUT
+//KEYBOARD INPUT
 
-  void keyPressed() {
-    if (key == CODED) {
-      if (keyCode == UP) {
-        joy_y_val = 0;
-      } else if (keyCode == RIGHT) {
-        joy_x_val = 1023;
-      } else if (keyCode == DOWN) {
-        joy_y_val = 1023;
-      } else if (keyCode == LEFT) {
-        joy_x_val = 0;
-      }
+void keyPressed() {
+  if (key == CODED) {
+    if (keyCode == UP) {
+      joy_y_val = 0;
+    } else if (keyCode == RIGHT) {
+      joy_x_val = 1023;
+    } else if (keyCode == DOWN) {
+      joy_y_val = 1023;
+    } else if (keyCode == LEFT) {
+      joy_x_val = 0;
     }
   }
+}
 
-  void keyReleased() {
-    if (key == CODED) {
-      if (keyCode == UP) {
-        joy_y_val = 511;
-      } else if (keyCode == RIGHT) {
-        joy_x_val = 511;
-      } else if (keyCode == DOWN) {
-        joy_y_val = 511;
-      } else if (keyCode == LEFT) {
-        joy_x_val = 511;
-      }
+void keyReleased() {
+  if (key == CODED) {
+    if (keyCode == UP) {
+      joy_y_val = 511;
+    } else if (keyCode == RIGHT) {
+      joy_x_val = 511;
+    } else if (keyCode == DOWN) {
+      joy_y_val = 511;
+    } else if (keyCode == LEFT) {
+      joy_x_val = 511;
     }
   }
+}

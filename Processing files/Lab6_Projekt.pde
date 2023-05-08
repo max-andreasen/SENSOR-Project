@@ -18,16 +18,16 @@ int joy_sw_val;
 
 
 void setup() {
-  String portName = Serial.list()[1];
-  myPort = new Serial(this, portName, 9600);
-  myPort.bufferUntil('\n'); //Waits here until it gets the establishContact input.
-  size(1000, 1000);
+  //String portName = Serial.list()[0];
+  //myPort = new Serial(this, portName, 9600);
+  //myPort.bufferUntil('\n'); //Waits here until it gets the establishContact input.
+  size(1000, 1000, P2D);
 }
 
 
 void draw() {
   //Spel här:
-  agarDraw();
+  racingDraw();
 }
 
 
