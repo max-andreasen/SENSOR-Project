@@ -44,7 +44,10 @@ void draw() {
   
   if (dist(shotX, shotY, asteroidX, asteroidY) < 20) {
     asteroidR = 0;
+    asteroidX = height;
+    asteroidY = width;
   }
+  
   
   if (frameCount % 180 == 0) {
     spawnAsteroid();
