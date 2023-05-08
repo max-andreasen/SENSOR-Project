@@ -24,9 +24,28 @@ public class RacingPlayer {
     c = c_;
   }
 
-  void update(int x_input, int y_input) {
-    float x_speed = ((x_input-511)/200) * speed;
-    float y_speed = ((y_input-511)/200) * speed;
+  void update(int x_input, int y_input, int prs_input) {
+    if (x_input-511 > 100) {
+      x_input = 1;
+    } else if (x_input-511 < -100) {
+      x_input = -1;
+    } else if (x_input-511 > -100 && x_input-511 < 100) {
+      x_input = 0;
+    }
+    
+    if (y_input-511 > 100) {
+      y_input = 1;
+    } else if (y_input-511 < -100) {
+      y_input = -1;
+    } else if (y_input-511 > -100 && y_input-511 < 100) {
+      y_input = 0;
+    }
+    
+    speed = ((float) prs_input / 1023)*6;
+
+
+    float x_speed = x_input * speed;
+    float y_speed = y_input * speed;
 
     front_v = new PVector(x_speed, y_speed);
     up_v = new PVector(0, 1);

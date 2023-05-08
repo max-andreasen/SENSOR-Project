@@ -51,7 +51,7 @@ void racingDraw() {
 
   //racing_player2.update(joy_x_val, joy_y_val);
   //racing_player2.display();
-  racing_player1.update(joy_x_val, joy_y_val);
+  racing_player1.update(joy_x_val, joy_y_val, prs_val);
   racing_player1.display();
 
   racing_score_player1.update(racing_player1.getLap());
@@ -80,6 +80,9 @@ void keyPressed() {
       joy_x_val = 0;
     }
   }
+  if (key == ' ') {
+    prs_val = 1023;
+  }
 }
 
 void keyReleased() {
@@ -93,5 +96,8 @@ void keyReleased() {
     } else if (keyCode == LEFT) {
       joy_x_val = 511;
     }
+  }
+  if (key == ' ') {
+    prs_val = 0;
   }
 }
