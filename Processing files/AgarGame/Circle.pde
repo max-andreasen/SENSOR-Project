@@ -33,16 +33,29 @@ public class AgarCircle {
     if (type == 0) 
     {
       fill(255);
+      ellipse(x,y,2*r,2*r);
     }
     else if (type == 1)
     { 
       fill(30,144,255);
+      ellipse(x,y,2*r,2*r);
+      
+      fill(255);
+      rect(x-(r/1.7), y-(r/6), r*1.2, r/4.5);
     }
     else if (type == 2) 
     {
-      fill(255,255,0);
+      fill(240,240,100);
+      ellipse(x,y,2*r,2*r);
+      
+      fill(105,105,105);
+      textSize(r*1.7);
+      text("?", x-(r/2.5), y+(r/1.8));
+      
+      fill(255);
+      textSize(r*1.7);
+      text("?", x-(r/2.7), y+(r/2), 20);
     }
-    ellipse(x,y,2*r,2*r);
     fill(255);
   }
   

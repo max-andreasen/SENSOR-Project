@@ -9,7 +9,7 @@ int randInt(int low, int up) {
 }
 
 // Checks if a circle and the Player is colliding
-boolean checkCollision(AgarPlayer player, AgarCircle circle) {
+boolean checkCollision(AgarPlayer player, AgarPlayer other_player, AgarCircle circle) {
   if (player.hits(circle)) 
   {
     float radius = circle.remove();
@@ -17,10 +17,12 @@ boolean checkCollision(AgarPlayer player, AgarCircle circle) {
     if (circle.type == 1)
     {
       player.heal(radius);
+      SoundFile sfx_heal = playSound(heal_sfx, heal_path, sfx_vol);
     }
     else if (circle.type == 2) 
     {
-      switchSensor(player);
+      switchSensor(other_player);
+      SoundFile sfx_scramble = playSound(scramble_sfx, scramble_path, sfx_vol);
     }
     else
     {    
@@ -30,7 +32,8 @@ boolean checkCollision(AgarPlayer player, AgarCircle circle) {
     circle = null;
     return true;
   }
-  else {
+  else 
+  {
     return false;
   }
 }
@@ -38,8 +41,18 @@ boolean checkCollision(AgarPlayer player, AgarCircle circle) {
 // Switches the input sensor for the other player
 void switchSensor(AgarPlayer player)
 {
-  int rand_int = randInt(0, number_of_sensors+1);
-  println("NEW SENSOR: " + rand_int + " for " + player.getPlayer());
+  int rand_int = randInt(1, number_of_sensors+1);
+  
+  if (player.getPlayer() == "Player 1") 
+  {
+    p1_sensor = rand_int;
+  }
+  else 
+  {
+    p2_sensor = rand_int;
+  }
+  
+  println("NEW SENSOR for " + player.getPlayer() + ": " + rand_int);
 }
 
 // Handles all the action of the circles
@@ -59,7 +72,7 @@ List<AgarCircle> refreshCircles(List<AgarCircle> circ_list, float speed) {
       next_circle.move(speed);
       
       // Checks for collision between Player1 and Circle
-      if  ((checkCollision(player1, next_circle)) || (checkCollision(player2, next_circle)))
+      if  ((checkCollision(player1, player2, next_circle)) || (checkCollision(player2, player1, next_circle)))
       {
         circ_list.remove(i);
       } 
@@ -103,27 +116,6 @@ AgarCircle createCircle(int[] bounds, int type) {
   int radius = randInt(5, 40);
   AgarCircle new_Circle = new AgarCircle(x_pos, y_pos, radius, type);
   return new_Circle;
-}
-
-// Handles the score and writes it to the Serial port
-void scoreCounter(AgarPlayer p1, AgarPlayer p2) {
-  int score1 = p1.getScore();
-  int score2 = p2.getScore();
-  
-  int prev_score1 = p1.getPrev();
-  int prev_score2 = p2.getPrev();
-  
-  // Writes the score to the Serial Port if it changes
-  if (score1 != prev_score1) 
-    {
-      println(score1);
-      //myPort.write(agar_score);
-    }
-  if (score2 != prev_score2) 
-    {
-      println(score1);
-      //myPort.write(agar_score);
-    }
 }
 
 // Checks if player has lost the game
@@ -175,4 +167,30 @@ float calcSpeed(int time) {
   
   return speed;
   
+}
+
+float[] sensorValue(int sensor_type){
+  
+  float [] values; 
+  float mx = mouseX;
+  float my = mouseY;
+  
+  if (sensor_type == 0) 
+  {
+    values = new float[]{mx, my};
+  }
+  else if (sensor_type == 1) 
+  {
+    values = new float[]{pressure, 20.0};
+  }
+  else if (sensor_type == 2) 
+  {
+    values = new float[]{tiltX, tiltY, tiltZ};
+  }
+  else 
+  {
+    return new float[]{mouseX, mouseY};
+  }
+  
+  return values;
 }

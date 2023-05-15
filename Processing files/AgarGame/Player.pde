@@ -3,30 +3,30 @@
 public class AgarPlayer {
   
   // CLASS VARIABLES
-  int x, y, r;
-  int score, prev_score;
+  float x, y;
+  int score, prev_score, r;
   int [] bounds;
   int min_r = 10;
-  String player; 
+  String which_player; 
   
   // CONSTRUCTOR
-  AgarPlayer(int x_, int y_, int r_, int score_, int[] bounds_, String player_) 
+  AgarPlayer(float x_, float y_, int r_, int score_, int[] bounds_, String player_) 
   {
     x = x_;
     y = y_;
     r = r_;
     score = score_;
     bounds = bounds_;
-    player = player_;
+    which_player = player_;
   }
   
   String getPlayer() 
   {
-    return player;
+    return which_player;
   }
   
   // Updates the position of the player
-  void update(int x_in, int y_in)
+  void update(float x_in, float y_in)
   {    
     int bound_min = bounds[0]+r;
     int bound_max = bounds[1]-r;
@@ -39,8 +39,6 @@ public class AgarPlayer {
   void grow(float radius) 
   {
     r += radius/4;
-    prev_score = score;
-    score += 1;
   }
   
   void heal(float radius) 
@@ -51,19 +49,25 @@ public class AgarPlayer {
     {
       r -= radius/4;
     }
+    else 
+    {
+      r = min_r;
+    }
   }
   
-  // Returns the current score
-  int getScore() 
-  { 
-    return score;
-  }
-  
-  // Return the previous score
-  int getPrev() 
+  void addScore() 
   {
-    return prev_score;
+    score += 1;
   }
+  
+ void displayScore() 
+ {
+   fill(0);
+   String score_text = Integer.toString(score);
+   textSize(40);
+   text(score_text, bounds[1]-150,70);
+ }
+  
   
   // Checks if player hits an object
   boolean hits(AgarCircle circle) 
