@@ -27,7 +27,6 @@ boolean checkCollision(AgarPlayer player, AgarPlayer other_player, AgarCircle ci
     else
     {    
       player.grow(radius);
-      println("YUUMM!!");
     }
     circle = null;
     return true;
@@ -96,7 +95,6 @@ List<AgarCircle> refreshCircles(List<AgarCircle> circ_list, float speed) {
   else 
   {
    // Debug
-    println("No circles in array");
   }
   
   return circ_list;
@@ -163,7 +161,6 @@ float calcSpeed(int time) {
   
   float speed = (float) (Math.pow((startvalue*(Math.log(time))/20), power));
   
-  //println("Speed" + speed);
   
   return speed;
   
@@ -177,11 +174,11 @@ float[] sensorValue(int sensor_type){
   
   if (sensor_type == 0) 
   {
-    values = new float[]{mx, my};
+    values = new float[]{joyX, joyY};
   }
   else if (sensor_type == 1) 
   {
-    values = new float[]{pressure, 20.0};
+    values = new float[]{pressureX, pressureY};
   }
   else if (sensor_type == 2) 
   {
@@ -193,4 +190,8 @@ float[] sensorValue(int sensor_type){
   }
   
   return values;
+}
+
+void serialPrint(int current_sensor) {
+  myPort.write(current_sensor);
 }

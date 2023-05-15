@@ -30,9 +30,6 @@ void stopSound(SoundFile sound) {
   if (sound != null) {
     sound.stop();
   }
-  else {
-    println("Sound is null");
-  }
 
 }
 
