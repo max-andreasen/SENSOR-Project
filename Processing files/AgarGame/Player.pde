@@ -45,19 +45,14 @@ public class AgarPlayer {
     
     if (sensor == 0) 
     {
-      x += (x_in-520)/50;
-      y += (y_in-502)/50;
+      x += (x_in-511)/50;
+      y += (y_in-511)/50;
     } 
     else if (p1_sensor == 1) {
-      x = x_in;
-      y = y_in;
+      x += x_in;
+      y += y_in;
       
     } 
-    else if (sensor == 2) 
-    {
-      x = x_in; 
-      y = y_in;
-    }
     
     x = constrain(x, bound_min, bound_max);
   }

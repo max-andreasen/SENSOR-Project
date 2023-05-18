@@ -29,8 +29,9 @@ float y_val_p1;
 float joyX;
 float joyY;
 
-float pressureX;
-float pressureY;
+float accelX;
+float accelY;
+float accelZ;
 
 float tiltX;
 float tiltY;
@@ -115,7 +116,7 @@ void agarDraw() {
       loopSound(music_player);
       music_playing = true;
     }
-
+    /*
     // Handles the sensor for player 1
     if (p1_sensor != 0 && sensor_timer_p1 < 10000)
     {
@@ -136,12 +137,12 @@ void agarDraw() {
       p2_sensor = 0;
       println("Player 2 now back to joystick!");
     }
-
+    */
     // Gathers the inputs from the sensor
     float[] sensor_values = sensorValue(p1_sensor);
     x_val_p1 = sensor_values[0];
     y_val_p1 = sensor_values[1];
-    
+
     // Updates the player position
     player1.update(x_val_p1, y_val_p1);
 
@@ -166,7 +167,7 @@ void agarDraw() {
 
     player1.addScore();
     player2.addScore();
-    
+
     serialPrint(p1_sensor);
 
     player1.displayScore();
@@ -202,7 +203,7 @@ void spawnCircles() {
 
 void setup()
 {
-  String portName = Serial.list()[1];
+  String portName = Serial.list()[4];
   myPort = new Serial(this, portName, 9600);
   myPort.bufferUntil('\n'); //Waits here until it gets the establishContact input.
   size(1500, 1000);
@@ -239,23 +240,24 @@ void serialEvent(Serial myPort) {
     { //if we've already established contact, keep getting and parsing data
 
 
-      if (val.charAt(0) == 'j')
+      if (val.charAt(0) == 'j') // Joystick
+      {
+        val = val.substring(1);
+        values = val.split(",");
+        println(values);
+        
+        joyX = Float.parseFloat(values[0]);
+        joyY = Float.parseFloat(values[1]);
+      } else if (val.charAt(0) == 'a') // Accelerometer
       {
         val = val.substring(1);
         values = val.split(",");
 
-        joyX = Float.parseFloat(values[0]);
-        joyY = Float.parseFloat(values[1]);
-        
-      } else if (val.charAt(0) == 'r')
-      {
-        val = val.substring(1); 
-        values = val.split(",");
-        
         println(values);
-        pressureX = Float.parseFloat(values[0]);
-        pressureY = 600;
-      } 
+        accelX = Float.parseFloat(values[0]);
+        accelY = Float.parseFloat(values[2]);
+        //accelZ = Float.parseFloat(values[1]);
+      }
 
       // when you've parsed the data you have, ask for more:
       //myPort.write("A");

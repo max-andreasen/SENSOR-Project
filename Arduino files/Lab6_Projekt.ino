@@ -28,31 +28,31 @@ RunningAverageFilter z_accel_filter = RunningAverageFilter();
 int servoPin = 7;
 Servo scoreIndic;
 
-void setup(void) 
-{
-  
-  #ifndef ESP8266
-  while (!Serial); // for Leonardo/Micro/Zero
-  #endif
-  
+void setup(void) {
+
+#ifndef ESP8266
+  while (!Serial)
+    ;  // for Leonardo/Micro/Zero
+#endif
+
   Serial.begin(9600);
-  
-  Serial.println("Accelerometer Test"); Serial.println("");
-  
-  if(!accel.begin())
-  {
+
+  Serial.println("Accelerometer Test");
+  Serial.println("");
+
+  if (!accel.begin()) {
     Serial.println("Ooops, no ADXL345 detected ... Check your wiring!");
-    while(1) {};
+    while (1) {};
   }
-  
+
 
   accel.setRange(ADXL345_RANGE_16_G);
   accel.setRange(ADXL345_RANGE_8_G);
   accel.setRange(ADXL345_RANGE_4_G);
   accel.setRange(ADXL345_RANGE_2_G);
-  
-  
-  
+
+
+
 
   scoreIndic.attach(servoPin);
   scoreIndic.write(150);
@@ -61,24 +61,23 @@ void setup(void)
   pinMode(switch_joystick, INPUT);
   pinMode(pressure, INPUT);
   pinMode(rotation, INPUT);
-  
-  establishContact();
 
+  establishContact();
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   if (currentSensor == 0) {
-  int x_joystick_reading = analogRead(x_joystick);
-  int x_joystick_average = (int) (x_filter.getAverage(x_joystick_reading));
+    int x_joystick_reading = analogRead(x_joystick);
+    int x_joystick_average = (int)(x_filter.getAverage(x_joystick_reading));
 
-  int y_joystick_reading = analogRead(y_joystick);
-  int y_joystick_average = (int) (y_filter.getAverage(y_joystick_reading));
+    int y_joystick_reading = analogRead(y_joystick);
+    int y_joystick_average = (int)(y_filter.getAverage(y_joystick_reading));
 
-  int switch_joystick_reading = analogRead(switch_joystick);
-  int switch_joystick_average = (int) (z_filter.getAverage(switch_joystick_reading));
-  Serial.println("j" + String(x_joystick_average) + "," + String(y_joystick_average) + "," + String(switch_joystick_average));
-  } 
+    int switch_joystick_reading = analogRead(switch_joystick);
+    int switch_joystick_average = (int)(z_filter.getAverage(switch_joystick_reading));
+    Serial.println("j" + String(x_joystick_average) + "," + String(y_joystick_average) + "," + String(switch_joystick_average));
+  }
 
   /*
   int prs_reading = analogRead(pressure);
@@ -86,47 +85,45 @@ void loop() {
   Serial.println(("p") + String(prs_average));
   */
 
-  else if (currentSensor == 1) { 
-  int rot_reading = analogRead(rotation);
-  int rot_average = (int) (rot_filter.getAverage(rot_reading));
-  Serial.println("r" + String(rot_average));
-  }
-  
-  /* Get a new sensor event */ 
+  /*
+  else if (currentSensor == 1) {
+    int rot_reading = analogRead(rotation);
+    int rot_average = (int)(rot_filter.getAverage(rot_reading));
+    Serial.println("r" + String(rot_average));
+  }*/
+
+  /* Get a new sensor event */
   else {
-  
-  sensors_event_t event; 
-  accel.getEvent(&event);
-  float x_accel_reading = event.acceleration.x;
-  float x_accel_average = x_accel_filter.getAverage(x_accel_reading);
-  float y_accel_reading = event.acceleration.y;
-  float y_accel_average = y_accel_filter.getAverage(y_accel_reading);
-  float z_accel_reading = event.acceleration.z;
-  float z_accel_average = z_accel_filter.getAverage(z_accel_reading);
-  Serial.println("a" + String(x_accel_average) + "," + String(y_accel_average) + "," + String(z_accel_average));
-  
+
+    sensors_event_t event;
+    accel.getEvent(&event);
+    float x_accel_reading = event.acceleration.x;
+    float x_accel_average = x_accel_filter.getAverage(x_accel_reading);
+    float y_accel_reading = event.acceleration.y;
+    float y_accel_average = y_accel_filter.getAverage(y_accel_reading);
+    float z_accel_reading = event.acceleration.z;
+    float z_accel_average = z_accel_filter.getAverage(z_accel_reading);
+    Serial.println("a" + String(x_accel_average) + "," + String(y_accel_average) + "," + String(z_accel_average));
   }
-  if (Serial.available()){
+  if (Serial.available()) {
     currentSensor = Serial.read();
-    int angle = (int) 150 - (24.5 + (49*currentSensor)); 
+    int angle = (int)150 - (24.5 + (49 * currentSensor));
     scoreIndic.write(angle);
-  }
-  else 
-  {
+  } else {
     //scoreIndic.write(150-49);
     //scoreIndic.write(currentAngle);
     //currentAngle += 20;
   }
 
 
-  delay(10);
+  delay(100);
 }
 
 
 
 void establishContact() {
   while (Serial.available() <= 0) {
-  Serial.println("A");   // send a capital A
-  delay(300);
+    Serial.println("A");  // send a capital A
+    delay(300);
   }
 }

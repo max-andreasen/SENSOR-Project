@@ -178,7 +178,7 @@ float[] sensorValue(int sensor_type){
   }
   else if (sensor_type == 1) 
   {
-    values = new float[]{pressureX, pressureY};
+    values = new float[]{accelX, accelY};
   }
   else if (sensor_type == 2) 
   {
