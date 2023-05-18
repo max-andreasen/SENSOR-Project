@@ -30,6 +30,7 @@ public class AgarCircle {
   // Displays the Circle on screen
   void display() 
   {
+    shader(racingBackgroundShader);
     if (type == 0) 
     {
       fill(255);
@@ -57,6 +58,7 @@ public class AgarCircle {
       text("?", x-(r/2.7), y+(r/2), 20);
     }
     fill(255);
+    resetShader();
   }
   
 }

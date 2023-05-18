@@ -58,7 +58,7 @@ int CIRCLE_START_Y = -30;
 int[] P1_X_BOUND = {0, 730};
 int[] P2_X_BOUND = {770, 1500};
 
-
+PShader racingBackgroundShader;
 
 // SETUP
 void agarSetup() {
@@ -206,7 +206,9 @@ void setup()
   String portName = Serial.list()[4];
   myPort = new Serial(this, portName, 9600);
   myPort.bufferUntil('\n'); //Waits here until it gets the establishContact input.
-  size(1500, 1000);
+  racingBackgroundShader = loadShader("racingRainbowShader.frag");
+  racingBackgroundShader.set("u_resolution", float(width), float(height));
+  size(1500, 1000, P2D);
 }
 void draw()
 {
