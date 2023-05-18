@@ -74,7 +74,7 @@ void agarSetup() {
   player1 = new AgarPlayer(canvas_w/4, canvas_h-300, 15, 0, P1_X_BOUND, "Player 1");
   player2 = new AgarPlayer(3000, canvas_h-300, 15, 0, P2_X_BOUND, "Player 2");
 
-  p1_sensor = 1;
+  p1_sensor = 0;
   p2_sensor = 0;
 
   noStroke();
@@ -116,7 +116,7 @@ void agarDraw() {
       loopSound(music_player);
       music_playing = true;
     }
-    /*
+    
     // Handles the sensor for player 1
     if (p1_sensor != 0 && sensor_timer_p1 < 10000)
     {
@@ -137,7 +137,7 @@ void agarDraw() {
       p2_sensor = 0;
       println("Player 2 now back to joystick!");
     }
-    */
+    
     // Gathers the inputs from the sensor
     float[] sensor_values = sensorValue(p1_sensor);
     x_val_p1 = sensor_values[0];
@@ -244,7 +244,6 @@ void serialEvent(Serial myPort) {
       {
         val = val.substring(1);
         values = val.split(",");
-        println(values);
         
         joyX = Float.parseFloat(values[0]);
         joyY = Float.parseFloat(values[1]);
@@ -253,7 +252,6 @@ void serialEvent(Serial myPort) {
         val = val.substring(1);
         values = val.split(",");
 
-        println(values);
         accelX = Float.parseFloat(values[0]);
         accelY = Float.parseFloat(values[2]);
         //accelZ = Float.parseFloat(values[1]);
@@ -263,6 +261,10 @@ void serialEvent(Serial myPort) {
       //myPort.write("A");
     }
   }
+}
+
+void serialPrint(int current_sensor) {
+  myPort.write(current_sensor);
 }
 /*
     if(!otherNode.active()){

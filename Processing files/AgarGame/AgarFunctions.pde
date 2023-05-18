@@ -191,7 +191,3 @@ float[] sensorValue(int sensor_type){
   
   return values;
 }
-
-void serialPrint(int current_sensor) {
-  myPort.write(current_sensor);
-}
