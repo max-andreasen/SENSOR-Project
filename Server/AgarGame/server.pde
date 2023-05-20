@@ -37,13 +37,4 @@ void clientEvent(Client client) {
           //accelZ = Float.parseFloat(values[1]);
         }
   }
-  
-
-  //client.write("hej" + "\n"); // Send the other node (client). We assume that the client expects a string.
 }
-
-/*
-void serverLoop() {
-  // We can display the last received value here, or perform some calculation. Maybe play a sound?
-  background(255); // Or change the background color
-}*/

@@ -1,5 +1,3 @@
-
-
 public class AgarPlayer {
 
   // CLASS VARIABLES
@@ -45,8 +43,8 @@ public class AgarPlayer {
     
     if (sensor == 0) 
     {
-      x += (x_in-511)/50;
-      y += (y_in-511)/50;
+      x -= (x_in)/50;
+      y -= (y_in)/50;
     } 
     else if (sensor == 1) {
       x -= x_in;

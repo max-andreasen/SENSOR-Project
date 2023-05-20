@@ -86,8 +86,6 @@ void agarSetup() {
   p2_sensor = 0;
 
   noStroke();
-
-  //delay(4000);
 }
 
 
@@ -225,12 +223,13 @@ void spawnCircles() {
 void setup()
 {
   serverSetup();
-  String portName = Serial.list()[1];
+  String portName = Serial.list()[4]; // 4 för edvin
   myPort = new Serial(this, portName, 9600);
   myPort.bufferUntil('\n'); //Waits here until it gets the establishContact input.
   racingBackgroundShader = loadShader("racingRainbowShader.frag");
   racingBackgroundShader.set("u_resolution", float(width), float(height));
-  size(1500, 1000, P2D);
+  //size(1500, 1000, P2D);
+  fullScreen(P2D);
 }
 
 void draw()
