@@ -61,10 +61,11 @@ void loop() {
   
   int x_joystick_reading = analogRead(x_joystick);
   int x_joystick_average = (int)(x_filter.getAverage(x_joystick_reading));
+  x_joystick_average -= 577; //We will be subtract the value that occurs when the joystick is resting in the middle.
 
   int y_joystick_reading = analogRead(y_joystick);
   int y_joystick_average = (int)(y_filter.getAverage(y_joystick_reading));
-
+  y_joystick_average -= 576; //Same as above.
   int switch_joystick_reading = analogRead(switch_joystick);
   int switch_joystick_average = (int)(z_filter.getAverage(switch_joystick_reading));
   Serial.println("j" + String(x_joystick_average) + "," + String(y_joystick_average) + "," + String(switch_joystick_average));

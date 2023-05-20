@@ -12,7 +12,7 @@ void setup() {
   String portName = Serial.list()[0];
   myPort = new Serial(this, portName, 9600);
   myPort.bufferUntil('\n'); //Waits here until it gets the establishContact input.
-  otherNode = new Client(this, "130.229.171.149", 2402);
+  otherNode = new Client(this, "130.229.172.112", 2402);
 } 
 
 void draw() { 
@@ -22,7 +22,7 @@ void draw() {
     delay(1000);
     background(255);  // show graphically that we are not connected
     println("trying to connect");
-    otherNode = new Client(this, "130.229.171.149", 2402);
+    otherNode = new Client(this, "130.229.172.112", 2402);
   }
   
   if (data_send != null) 
